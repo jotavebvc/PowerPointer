@@ -1,16 +1,85 @@
-# React + Vite
+# PowerPointer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Apresentações interativas feitas em React — com navegação por teclado, desenho sobre slides e temas visuais.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Navegação** — `← →`, `Espaço`, `Enter`, `Backspace`, `Home`, `End`
+- **Desenho** — pressione `D` para ativar, `Z` para desfazer, `C` para limpar
+- **Paleta de cores e espessura** na barra de controles
+- **4 temas globais** — Midnight, Daylight, Ocean, Ember
+- **Componentes de layout** — colunas, caixas de destaque, tags, cards de comparação, cards de preço
+- **Animações** de transição entre slides
 
-## React Compiler
+## Início rápido
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+git clone git@github.com:jotavebvc/PowerPointer.git
+cd PowerPointer
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+## Criando seus slides
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+O conteúdo dos slides é separado do código-fonte. Isso permite que você use o PowerPointer publicamente como engine e mantenha o conteúdo da sua apresentação privado.
+
+```bash
+cp -r src/content.example src/content
+```
+
+Edite `src/content/slides.jsx` com seus slides. A pasta `src/content/` está no `.gitignore` — **seu conteúdo nunca será publicado**.
+
+Se `src/content/` não existir, o app carrega automaticamente os slides de exemplo de `src/content.example/`.
+
+### Estrutura de um arquivo de slides
+
+```jsx
+import Slide from '../components/Slide'
+
+export default [
+  <Slide key="capa">
+    <h1>Título</h1>
+    <p>Subtítulo</p>
+  </Slide>,
+
+  <Slide key="slide-2">
+    <h2>Segundo slide</h2>
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+    </ul>
+  </Slide>,
+]
+```
+
+### Classes CSS disponíveis
+
+| Classe | Uso |
+|---|---|
+| `.columns` | Colunas lado a lado |
+| `.highlight-box` | Caixa de destaque |
+| `.tag-group` + `.tag` | Grupo de tags |
+| `.competitor-cards` + `.competitor-card` | Cards de comparação |
+| `.pricing-cards` + `.pricing-card` | Cards de preços |
+| `.featured` | Destaque em pricing card |
+| `.subtitle` | Subtítulo estilizado |
+| `.small` | Texto menor |
+| `.big-number` | Número grande em destaque |
+
+## Scripts
+
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm run preview` | Preview do build |
+
+## Stack
+
+- React 19
+- Vite 8
+
+## Licença
+
+MIT
