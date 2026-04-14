@@ -1,0 +1,250 @@
+.slide {
+  width: 100%;
+  max-width: 960px;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+/* ---------- Typography ---------- */
+
+.slide h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #58a6ff, #bc8cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.15;
+}
+
+.slide h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #58a6ff;
+}
+
+.slide h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #bc8cff;
+}
+
+.slide p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #8b949e;
+  max-width: 750px;
+  margin: 0;
+}
+
+.slide strong {
+  color: #e6edf3;
+}
+
+.slide em {
+  color: #bc8cff;
+  font-style: normal;
+}
+
+/* ---------- Lists ---------- */
+
+.slide ul, .slide ol {
+  text-align: left;
+  font-size: 1.15rem;
+  line-height: 2;
+  color: #c9d1d9;
+  list-style: none;
+  padding: 0;
+  max-width: 750px;
+}
+
+.slide ul li::before {
+  content: '▸ ';
+  color: #58a6ff;
+  font-weight: 700;
+}
+
+.slide ol {
+  counter-reset: slide-counter;
+}
+
+.slide ol li {
+  counter-increment: slide-counter;
+}
+
+.slide ol li::before {
+  content: counter(slide-counter) '. ';
+  color: #58a6ff;
+  font-weight: 700;
+}
+
+/* ---------- Code ---------- */
+
+.slide code {
+  background: #161b22;
+  padding: 0.15em 0.5em;
+  border-radius: 4px;
+  font-size: 0.95em;
+  color: #bc8cff;
+}
+
+.slide pre {
+  background: #161b22;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  text-align: left;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #c9d1d9;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* ---------- Layout helpers ---------- */
+
+.slide .columns {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 850px;
+  text-align: left;
+}
+
+.slide .columns > div {
+  flex: 1;
+}
+
+.slide .highlight-box {
+  background: linear-gradient(135deg, rgba(88,166,255,0.1), rgba(188,140,255,0.1));
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  max-width: 750px;
+  width: 100%;
+}
+
+.slide .tag {
+  display: inline-block;
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #58a6ff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.slide .tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.slide .big-number {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #58a6ff, #bc8cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.slide .subtitle {
+  font-size: 1.4rem;
+  color: #c9d1d9;
+  font-weight: 400;
+}
+
+.slide .small {
+  font-size: 0.95rem;
+  color: #6e7681;
+}
+
+.slide hr {
+  width: 80px;
+  border: none;
+  border-top: 3px solid #58a6ff;
+  margin: 0.5rem auto;
+}
+
+/* ---------- Competitor cards ---------- */
+
+.slide .competitor-cards {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 850px;
+}
+
+.slide .competitor-card {
+  flex: 1;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 1.2rem;
+  text-align: left;
+}
+
+.slide .competitor-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.slide .competitor-card ul {
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* ---------- Pricing cards ---------- */
+
+.slide .pricing-cards {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.slide .pricing-card {
+  flex: 1;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.slide .pricing-card.featured {
+  border-color: #58a6ff;
+  background: linear-gradient(180deg, rgba(88,166,255,0.08), #161b22);
+}
+
+.slide .pricing-card .price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #e6edf3;
+  line-height: 1.2;
+}
+
+.slide .pricing-card .price span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #8b949e;
+}
+
+.slide .pricing-card ul {
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
