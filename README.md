@@ -12,6 +12,7 @@ Apresentações interativas feitas em React — com navegação por teclado, des
 - **Componentes de layout** — colunas, caixas de destaque, tags, cards de comparação, cards de preço
 - **Animações** de transição entre slides
 - **Conteúdo privado** — seu conteúdo é separado da engine e nunca é publicado
+- **Exportar HTML** — gere um único arquivo `.html` autocontido para compartilhar sem servidor
 
 ## Início rápido
 
@@ -117,12 +118,23 @@ Cada caminho é uma lista independente de slides. Ao escolher uma opção, o res
 | `.small` | Texto menor |
 | `.big-number` | Número grande em destaque |
 
+## Exportar como HTML
+
+Gere um único arquivo `.html` autocontido com toda a apresentação embutida (JS, CSS, imagens). Pode ser aberto diretamente em qualquer navegador, sem servidor.
+
+```bash
+npm run export
+```
+
+O arquivo será gerado em `export/index.html`. Envie por email, pendrive, Google Drive — funciona em qualquer lugar.
+
 ## Scripts
 
 | Comando | Descrição |
 |---|---|
 | `npm run dev` | Servidor de desenvolvimento |
 | `npm run build` | Build de produção |
+| `npm run export` | Exportar HTML autocontido |
 | `npm run preview` | Preview do build |
 
 ## Stack

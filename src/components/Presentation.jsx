@@ -84,6 +84,7 @@ export default function Presentation({ children }) {
       if (e.key === 'n' || e.key === 'N') {
         e.preventDefault()
         setGlobalTheme(t => {
+          // eslint-disable-next-line react-hooks/immutability
           const i = globalThemes.findIndex(th => th.id === t)
           return globalThemes[(i - 1 + globalThemes.length) % globalThemes.length].id
         })
