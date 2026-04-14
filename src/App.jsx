@@ -4,6 +4,11 @@ import Slide from './components/Slide'
 function App() {
   return (
     <Presentation>
+      <Slide>
+        <h1>PowerPointer By JãoDev</h1>
+        <p>Uma apresentação interativa feita em React.</p>
+        <p>Use <code>← →</code> ou <code>Espaço</code> para navegar.</p>
+      </Slide>
 
       {/* ===== SLIDE 1 — Capa ===== */}
       <Slide>
@@ -115,16 +120,7 @@ function App() {
       </Slide>
 
       {/* ===== SLIDE 7 — Fluxo do Produto ===== */}
-      <Slide>
-        <h2>Fluxo Principal</h2>
-        <ol>
-          <li>Gestor cria ou ajusta tasklists e rotinas no painel web</li>
-          <li>Backend persiste e distribui configurações</li>
-          <li>App nativo consome tarefas designadas</li>
-          <li>Colaborador executa checklist, anexa evidências e envia status</li>
-          <li>Backend consolida progresso e devolve visibilidade ao dashboard</li>
-        </ol>
-      </Slide>
+
 
       {/* ===== SLIDE 8 — Diferenciais ===== */}
       <Slide>
