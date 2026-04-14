@@ -1,0 +1,164 @@
+.branch-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  min-height: 60vh;
+  padding: 2rem;
+  animation: branchFadeIn 0.6s ease-out;
+}
+
+@keyframes branchFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.branch-question {
+  text-align: center;
+}
+
+.branch-question h2 {
+  font-size: 2.4rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.branch-divider {
+  width: 80px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #58a6ff, #a78bfa);
+  margin: 0 auto;
+}
+
+.branch-options {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.branch-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 2.5rem 3rem;
+  width: 240px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.branch-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.branch-btn--sim::before {
+  background: radial-gradient(circle at 50% 80%, rgba(52, 211, 153, 0.15), transparent 70%);
+}
+
+.branch-btn--nao::before {
+  background: radial-gradient(circle at 50% 80%, rgba(251, 113, 133, 0.15), transparent 70%);
+}
+
+.branch-btn:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.branch-btn:hover::before {
+  opacity: 1;
+}
+
+.branch-btn--sim:hover {
+  border-color: rgba(52, 211, 153, 0.5);
+}
+
+.branch-btn--nao:hover {
+  border-color: rgba(251, 113, 133, 0.5);
+}
+
+.branch-btn--dimmed {
+  opacity: 0.4;
+  transform: scale(0.97);
+}
+
+.branch-btn--chosen {
+  border-color: rgba(88, 166, 255, 0.6);
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+}
+
+.branch-btn--unchosen {
+  opacity: 0.35;
+}
+
+.branch-chosen-hint {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
+
+.branch-btn:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+.branch-btn__icon {
+  font-size: 2.8rem;
+  line-height: 1;
+  animation: branchIconPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes branchIconPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+
+.branch-btn__label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.branch-btn__desc {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  max-width: 180px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Ripple on click */
+.branch-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.branch-btn:active::after {
+  opacity: 1;
+  transform: scale(1);
+  transition: 0s;
+}

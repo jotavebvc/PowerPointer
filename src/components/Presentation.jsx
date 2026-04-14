@@ -1,12 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
+import { cloneElement } from 'react'
 import DrawingCanvas from './DrawingCanvas'
 import './Presentation.css'
 
 export default function Presentation({ children }) {
-  const slides = Array.isArray(children) ? children : [children]
-  const total = slides.length
+  const baseSlides = useMemo(
+    () => (Array.isArray(children) ? children : [children]),
+    [children]
+  )
+  const [branchChoices, setBranchChoices] = useState({})
   const [current, setCurrent] = useState(0)
-  const [direction, setDirection] = useState(0) // -1 left, 1 right, 0 initial
+  const [direction, setDirection] = useState(0)
   const [animating, setAnimating] = useState(false)
   const [drawingActive, setDrawingActive] = useState(false)
   const [drawColor, setDrawColor] = useState('#ff4444')
@@ -14,6 +18,35 @@ export default function Presentation({ children }) {
   const [clearCount, setClearCount] = useState(0)
   const [globalTheme, setGlobalTheme] = useState('midnight')
   const canvasRef = useRef(null)
+
+  // Build the effective slide list:
+  // Everything before the first branch plays normally.
+  // When a branch is hit, if the user already chose, the rest of the
+  // presentation is REPLACED by the chosen path (which can itself
+  // contain further branches — recursive).
+  const slides = useMemo(() => {
+    const build = (list) => {
+      const result = []
+      for (let i = 0; i < list.length; i++) {
+        const slide = list[i]
+        result.push(slide)
+        if (slide.props?.branch) {
+          const key = slide.key || `branch-${i}`
+          const choice = branchChoices[key]
+          if (choice && slide.props.branch[choice]) {
+            // Replace everything after this point with the chosen path
+            result.push(...build(slide.props.branch[choice]))
+          }
+          // Stop processing the original list — the branch takes over
+          break
+        }
+      }
+      return result
+    }
+    return build(baseSlides)
+  }, [baseSlides, branchChoices])
+
+  const total = slides.length
 
   const goTo = useCallback((index) => {
     const clamped = Math.max(0, Math.min(index, total - 1))
@@ -50,9 +83,12 @@ export default function Presentation({ children }) {
 
       if (drawingActive) return // block nav while drawing
 
+      // Block forward navigation on unanswered branch slides
+      const isOnUnansweredBranch = slides[current]?.props?.branch && !branchChoices[slides[current]?.key || current]
+
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
         e.preventDefault()
-        next()
+        if (!isOnUnansweredBranch) next()
       }
       if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
         e.preventDefault()
@@ -84,6 +120,56 @@ export default function Presentation({ children }) {
     { id: 'ember', label: '🔥', name: 'Ember' },
   ]
 
+  const handleBranchChoose = useCallback((branchKey, choice) => {
+    setBranchChoices(prev => ({ ...prev, [branchKey]: choice }))
+    // Advance to next slide (first slide of the chosen path)
+    setTimeout(() => {
+      setDirection(1)
+      setAnimating(true)
+      setCurrent(c => c + 1)
+      setTimeout(() => setAnimating(false), 350)
+    }, 200)
+  }, [])
+
+  // Determine what to render for current slide
+  const currentSlide = slides[current]
+  const isBranch = currentSlide?.props?.branch
+  const branchKey = isBranch ? (currentSlide.key || `branch-${current}`) : null
+  const branchAlreadyChosen = branchKey != null && branchChoices[branchKey]
+
+  const renderSlide = () => {
+    if (isBranch && !branchAlreadyChosen) {
+      return cloneElement(currentSlide, {
+        onChoose: (choice) => handleBranchChoose(branchKey, choice),
+      })
+    }
+    // If branch was already chosen and user navigated back, show it as answered
+    if (isBranch && branchAlreadyChosen) {
+      return cloneElement(currentSlide, {
+        onChoose: (choice) => {
+          // Allow re-choosing — reset this branch and any nested ones
+          setBranchChoices(prev => {
+            const next = { ...prev }
+            // Clear this and all subsequent branch choices
+            for (const k of Object.keys(next)) {
+              if (k === branchKey) delete next[k]
+            }
+            next[branchKey] = choice
+            return next
+          })
+          setTimeout(() => {
+            setDirection(1)
+            setAnimating(true)
+            setCurrent(c => c + 1)
+            setTimeout(() => setAnimating(false), 350)
+          }, 200)
+        },
+        chosen: branchChoices[branchKey],
+      })
+    }
+    return currentSlide
+  }
+
   return (
     <div className={`presentation global-${globalTheme}`}>
       <div className="progress-bar">
@@ -91,7 +177,7 @@ export default function Presentation({ children }) {
       </div>
       <div className="slide-container" style={{ position: 'relative' }}>
         <div className={slideClass}>
-          {slides[current]}
+          {renderSlide()}
         </div>
         <DrawingCanvas
           ref={canvasRef}
@@ -104,7 +190,7 @@ export default function Presentation({ children }) {
       <div className="presentation-controls">
         <button onClick={prev} disabled={current === 0}>◀</button>
         <span className="slide-counter">{current + 1} / {total}</span>
-        <button onClick={next} disabled={current === total - 1}>▶</button>
+        <button onClick={next} disabled={current === total - 1 || (isBranch && !branchAlreadyChosen)}>▶</button>
 
         <span className="controls-separator">|</span>
 

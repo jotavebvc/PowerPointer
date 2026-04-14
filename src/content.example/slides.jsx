@@ -18,7 +18,7 @@ import Slide from '../components/Slide'
 
 export default [
   <Slide key="intro">
-    <h1>PowerPointer</h1>
+    <h1>PowerPointer By <a href="https://jaodev.work" target="_blank" rel="noopener noreferrer">JãoDev</a></h1>
     <p>Uma apresentação interativa feita em React.</p>
     <p>Use <code>← →</code> ou <code>Espaço</code> para navegar.</p>
     <p>Pressione <code>D</code> para desenhar sobre os slides.</p>
