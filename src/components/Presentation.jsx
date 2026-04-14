@@ -80,6 +80,23 @@ export default function Presentation({ children }) {
         setClearCount(c => c + 1)
         return
       }
+      // Theme cycling
+      if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault()
+        setGlobalTheme(t => {
+          const i = globalThemes.findIndex(th => th.id === t)
+          return globalThemes[(i - 1 + globalThemes.length) % globalThemes.length].id
+        })
+        return
+      }
+      if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault()
+        setGlobalTheme(t => {
+          const i = globalThemes.findIndex(th => th.id === t)
+          return globalThemes[(i + 1) % globalThemes.length].id
+        })
+        return
+      }
 
       if (drawingActive) return // block nav while drawing
 
