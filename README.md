@@ -5,12 +5,14 @@ Apresentações interativas feitas em React — com navegação por teclado, des
 ## Funcionalidades
 
 - **Navegação** — `← →`, `Espaço`, `Enter`, `Backspace`, `Home`, `End`
-- **Desenho** — pressione `D` para ativar, `Z` para desfazer, `C` para limpar
+- **Suporte a touch** — navegue por swipe (esquerda/direita) em dispositivos móveis e tablets
+- **Desenho** — pressione `D` para ativar, `Z` para desfazer, `C` para limpar (mouse e touch)
 - **Paleta de cores e espessura** na barra de controles
 - **4 temas globais** — Midnight, Daylight, Ocean, Ember (troque com `N` / `M` ou pelo seletor)
+- **Zoom** — aumente ou diminua o slide com `+` / `-`, resete com `0` (0.5× a 2.5×)
 - **Rotas de slides (branching)** — crie caminhos alternativos que dependem de uma escolha do público
 - **Componentes de layout** — colunas, caixas de destaque, tags, cards de comparação, cards de preço
-- **Animações** de transição entre slides
+- **Animações** — transições suaves entre slides (fade, scale, blur), animações de entrada nos branch slides, pulse nos ícones e efeitos de hover nos controles
 - **Conteúdo privado** — seu conteúdo é separado da engine e nunca é publicado
 - **Exportar HTML** — gere um único arquivo `.html` autocontido para compartilhar sem servidor
 
@@ -101,8 +103,11 @@ Cada caminho é uma lista independente de slides. Ao escolher uma opção, o res
 | `D` | Ativar/desativar desenho |
 | `Z` | Desfazer último traço |
 | `C` | Limpar desenho do slide |
+| `+` / `-` | Zoom in / Zoom out |
+| `0` | Resetar zoom (100%) |
 | `N` | Tema anterior |
 | `M` | Próximo tema |
+| `?` | Mostrar ajuda |
 
 ### Classes CSS disponíveis
 
