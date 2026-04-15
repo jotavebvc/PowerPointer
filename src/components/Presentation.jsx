@@ -17,6 +17,8 @@ export default function Presentation({ children }) {
   const [drawStroke, setDrawStroke] = useState(3)
   const [clearCount, setClearCount] = useState(0)
   const [globalTheme, setGlobalTheme] = useState('midnight')
+  const [zoom, setZoom] = useState(1)
+  const [showHelp, setShowHelp] = useState(false)
   const canvasRef = useRef(null)
 
   // Build the effective slide list:
@@ -109,6 +111,28 @@ export default function Presentation({ children }) {
       if (e.key === 'c' || e.key === 'C') {
         e.preventDefault()
         setClearCount(c => c + 1)
+        return
+      }
+      // Help overlay
+      if (e.key === '?') {
+        e.preventDefault()
+        setShowHelp(h => !h)
+        return
+      }
+      // Zoom
+      if (e.key === '+' || e.key === '=') {
+        e.preventDefault()
+        setZoom(z => Math.min(z + 0.15, 2.5))
+        return
+      }
+      if (e.key === '-' || e.key === '_') {
+        e.preventDefault()
+        setZoom(z => Math.max(z - 0.15, 0.5))
+        return
+      }
+      if (e.key === '0') {
+        e.preventDefault()
+        setZoom(1)
         return
       }
       // Theme cycling
@@ -225,7 +249,7 @@ export default function Presentation({ children }) {
         <div className="progress-fill" style={{ width: `${progress}%` }} />
       </div>
       <div className="slide-container" style={{ position: 'relative' }}>
-        <div className={slideClass}>
+        <div className={slideClass} style={{ transform: `scale(${zoom})`, transition: 'transform 0.2s ease' }}>
           {renderSlide()}
         </div>
         <DrawingCanvas
@@ -295,7 +319,56 @@ export default function Presentation({ children }) {
             </button>
           ))}
         </div>
+
+        <span className="controls-separator">|</span>
+
+        <div className="zoom-controls">
+          <button
+            className="zoom-btn"
+            onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
+            title="Zoom out (−)"
+          >−</button>
+          <span className="zoom-level" onClick={() => setZoom(1)} title="Reset zoom (0)">
+            {Math.round(zoom * 100)}%
+          </span>
+          <button
+            className="zoom-btn"
+            onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
+            title="Zoom in (+)"
+          >+</button>
+        </div>
+
+        <span className="controls-separator">|</span>
+
+        <button
+          className="help-btn"
+          onClick={() => setShowHelp(h => !h)}
+          title="Atalhos (?)"
+        >?</button>
       </div>
+
+      {showHelp && (
+        <div className="help-overlay" onClick={() => setShowHelp(false)}>
+          <div className="help-panel" onClick={e => e.stopPropagation()}>
+            <div className="help-title">Atalhos do teclado</div>
+            <div className="help-grid">
+              <kbd>←</kbd><span>Slide anterior</span>
+              <kbd>→</kbd><span>Próximo slide</span>
+              <kbd>Home</kbd><span>Primeiro slide</span>
+              <kbd>End</kbd><span>Último slide</span>
+              <kbd>D</kbd><span>Desenhar</span>
+              <kbd>Z</kbd><span>Desfazer traço</span>
+              <kbd>C</kbd><span>Limpar desenho</span>
+              <kbd>F</kbd><span>Fogos de artifício</span>
+              <kbd>M / N</kbd><span>Trocar tema</span>
+              <kbd>+ / −</kbd><span>Zoom in / out</span>
+              <kbd>0</kbd><span>Reset zoom</span>
+              <kbd>?</kbd><span>Este painel</span>
+            </div>
+            <div className="help-close">Clique fora ou pressione <kbd>?</kbd> para fechar</div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
