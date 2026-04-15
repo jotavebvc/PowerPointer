@@ -61,6 +61,36 @@ export default function Presentation({ children }) {
   const next = useCallback(() => goTo(current + 1), [current, goTo])
   const prev = useCallback(() => goTo(current - 1), [current, goTo])
 
+  // Swipe / touch support
+  const touchRef = useRef(null)
+  useEffect(() => {
+    const SWIPE_THRESHOLD = 30
+    let startX = 0
+    let startY = 0
+
+    const onTouchStart = (e) => {
+      startX = e.touches[0].clientX
+      startY = e.touches[0].clientY
+    }
+    const onTouchEnd = (e) => {
+      if (drawingActive) return
+      const dx = e.changedTouches[0].clientX - startX
+      const dy = e.changedTouches[0].clientY - startY
+      if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dy) > Math.abs(dx)) return
+
+      const isOnUnansweredBranch = slides[current]?.props?.branch && !branchChoices[slides[current]?.key || current]
+      if (dx < 0 && !isOnUnansweredBranch) next()
+      if (dx > 0) prev()
+    }
+
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => {
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [next, prev, drawingActive, slides, current, branchChoices])
+
   useEffect(() => {
     const handleKey = (e) => {
       // Drawing toggle
