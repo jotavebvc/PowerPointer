@@ -34,11 +34,12 @@ export default function Presentation({ children }) {
           const key = slide.key || `branch-${i}`
           const choice = branchChoices[key]
           if (choice && slide.props.branch[choice]) {
-            // Replace everything after this point with the chosen path
             result.push(...build(slide.props.branch[choice]))
+            // Continue with remaining slides after the branch
+          } else {
+            // No choice yet — stop here
+            break
           }
-          // Stop processing the original list — the branch takes over
-          break
         }
       }
       return result

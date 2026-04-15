@@ -21,6 +21,7 @@
   height: 100%;
   background: linear-gradient(90deg, #58a6ff, #bc8cff);
   transition: width 0.35s ease;
+  box-shadow: 0 0 8px rgba(88, 166, 255, 0.4);
 }
 
 /* ---------- Slide container ---------- */
@@ -54,22 +55,26 @@
 @keyframes slideFromRight {
   from {
     opacity: 0;
-    transform: translateX(60px);
+    transform: translateX(60px) scale(0.98);
+    filter: blur(2px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
+    filter: blur(0);
   }
 }
 
 @keyframes slideFromLeft {
   from {
     opacity: 0;
-    transform: translateX(-60px);
+    transform: translateX(-60px) scale(0.98);
+    filter: blur(2px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
+    filter: blur(0);
   }
 }
 
